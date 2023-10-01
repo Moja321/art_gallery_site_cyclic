@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%-include("./partials/header.ejs")%>
+  </head>
+  <body>
+    <nav>
+      <%-include("./partials/navIndex.ejs")%> 
+    </nav>
+    <div class="container">
+      <!-- <h2>Imagine the glory of being the proud owner of this fine artwork</h2> -->
+        <div class="jumbo">
+          <h2> <%= artwork.title %></h2>
+            <img src="<%= artwork.img %>" alt="An image of <%= artwork.name %>" class="jumbo-img" />
+            <p><%=artwork.description %></p>
+            <!-- <h6>Only <%= artwork.likes %> remaining</h6> -->
+            <br>
+            <p class="likes">LIKES: <%= artwork.likes %> </p>
+            <% if (currentUser) { %>
+              <% if (artwork.userId === currentUser._id) { %> 
+                <!-- <p>You are not allowed to give your own artwork likes!</p> -->
+              <% }else{ %> 
+                <form action="/artworks/<%=artwork.id%>/buy?_method=put" method="POST">
+                  <button class="buy-button">Like</button>
+                </form>
+                <form action="/artworks/<%=artwork.id%>/unlike?_method=put" method="POST">
+                  <button class="buy-button">Unlike</button>
+                </form> 
+              <% } %> 
+            <% } %> 
+            <br>
+            <a href="/artworks/<%=artwork.id%>/gallery"><button>Visit user's gallery</button></a>
+            <!-- <h4>Price: $<%=artwork.price %></h4> -->
+        </div>
+        <% if (currentUser) { %> 
+          <% if (artwork.userId === currentUser._id) { %> 
+            <div class="admin-actions">
+              <a href="/artworks/<%=artwork.id%>/edit"><button type="button" name="button" class="edit-button">Edit</button></a>
+              <form action="/artworks/<%=artwork.id%>?_method=DELETE" method="POST">
+                <button class="delete-button">DELETE</button>
+              </form>
+            </div>
+          <% } %> 
+        <% } %> 
+    </div>
+    <%-include("./partials/footer.ejs")%>
+  </body>
+</html>

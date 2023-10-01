@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%-include("./partials/header.ejs")%> 
+  </head>
+  <body>
+    <nav>
+      <%-include("./partials/navIndex.ejs")%> 
+    </nav>
+    <div class="container">
+      <h2><%=currentArtwork.userName %>'s art gallery</h2>
+      <div class="artworks">
+        
+        <% artworks.forEach( (artwork) => { %>
+          <% if (artwork.userId) { %> 
+            <% if (artwork.userId === currentArtwork.userId) { %> 
+              <!-- <h2><%=artwork.userName%>'s art gallery</h2> -->
+              <div class="card">
+                <h5> <%= artwork.name  %></h5>
+                <a href="/artworks/<%=artwork.id%>">
+                <img src="<%= artwork.img %>" alt="An image of <%= artwork.name %>" /></a>
+                <h6 class="likes">Likes: <%=artwork.likes %></h6>
+              </div>
+            <% } %> 
+          <% } %> 
+        <% }); %>
+      </div>
+    </div>
+    <%-include("./partials/footer.ejs")%>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+<div class="nav-container">
+    <!-- <a href="/artworks"><h1 id="store" class="six columns">The Mongoose Store</h1></a> -->
+    <!-- <span class="three columns">&nbsp;</span> -->
+    <!-- <a href="/artworks/new"><button type="button" name="button" class="new-artwork three columns">New Product</button></a> -->
+    
+        <div class="flex-container1">
+            <a href="/"><h1 id="store" style="font-family:Georgia, 'Times New Roman', Times, serif; color:white">Awesome Art Gallery</h1></a>
+        </div>
+        <div class="flex-container2">
+            <% if (currentUser) { %> 
+            <a href="/artworks/new"><button>Submit Art</button></a>
+            <a href="/userpage"><button>User's Art Gallery</button></a>
+            <form action="/sessions?_method=DELETE" method="POST">
+                <input type="submit" style="color:white; background-color:#01B0D3" value="Logout"/>
+            </form>
+            <p class="p-white">Welcome to the Awesome Art Gallery</a>, <%=currentUser.username %>!</p>
+            <% } else { %> 
+            <a href="/sessions/new"><button>Login</button></a>
+            <a href="/users/new"><button>Sign Up</button></a>
+            <% } %> 
+        </div>               
+    
+</div>

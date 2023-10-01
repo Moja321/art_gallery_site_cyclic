@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%-include("./partials/header.ejs")%>
+  </head>
+  <body>
+    <nav>
+      <%-include("./partials/nav.ejs")%> 
+    </nav>
+    <div class="container">
+      <h2>Improve this item</h2>
+        <div class="jumbo">
+          <form class="edit" action="/artworks/<%=artwork.id%>?_method=PUT" method="POST">
+            <label for="userId"></label>
+            <input type="hidden" name="userId" value="<%=currentUser._id %>" required readonly>
+            <label for="userName"></label>
+            <input type="hidden" name="userName" value="<%=currentUser.username %>" required readonly>
+            <label for="likes"></label>
+            <input type="hidden" name="likes" value="<%=artwork.likes%>" required readonly>
+            <label for="title">Title: </label>
+            <input type="text" name="title" value="<%=artwork.title%>">
+            <h5>Current image:</h5>
+            <img src="<%= artwork.img %>" alt="An image of <%= artwork.name %>" />
+            <label for="img">Image: </label>
+            <input type="text" name="img" value="<%=artwork.img%>">
+            <label for="description">Description: </label>
+            <textarea id="description" class="textarea" name="description" cols="70" rows="50"><%=artwork.description%></textarea>
+            <!-- <input type="textarea" name="description" value="<%=artwork.description%>"> -->
+            <!-- <label for="price">Price: </label>
+            <input type="number" name="price" value="<%=artwork.price || 0%>" min="0" step=".01">
+            <label for="likes">Quantity: </label>
+            <input type="number" name="likes" value="<%=artwork.likes%> || 0" min="0" > <br> -->
+            <br>
+            <input type="submit" name="submit" value="update" class="edit-button">
+          </form>
+            
+        </div>
+    </div>
+    <%-include("./partials/footer.ejs")%>
+  </body>
+</html>

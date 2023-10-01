@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%-include("./partials/header.ejs")%>
+  </head>
+  <body>
+    <nav>
+      <%-include("./partials/navIndex.ejs")%> 
+    </nav>
+    <div class="container">
+      <h2>Add an artwork!</h2>
+        <% if (currentUser) { %> 
+          <div class="jumbo">
+            <form class="edit" action="/artworks" method="POST">
+              <label for="userId"></label>
+              <input type="hidden" name="userId" value="<%=currentUser._id %>" required readonly>
+              <label for="userName"></label>
+              <input type="hidden" name="userName" value="<%=currentUser.username %>" required readonly>
+              <label for="likes"></label>
+              <input type="hidden" name="likes" value="0" required readonly>
+              <label for="title">Title: </label>
+              <input type="text" name="title" value="" required>              
+              <label for="img">Image: </label>
+              <input type="text" name="img" value="">
+              <label for="description">Description: </label>
+              <textarea id="description" class="textarea" name="description" cols="70" rows="50"></textarea>
+              <!-- <input type="textarea" name="description" value=""> -->
+              <!-- <label for="price">Price: </label>
+              <input type="number" name="price" min="0" step=".01" value="0">
+              <label for="likes">Likes: </label>
+              <input type="number" name="likes"  pattern="[0-9]*" min="0" value="0"><br> -->
+              <br>
+              <input type="submit" name="submit" value="submit" class="edit-button">              
+            </form>
+          </div>
+        <% } else { %> 
+          <p>Please login to submit artwork!</p>
+        <% } %> 
+    </div>
+    <%-include("./partials/footer.ejs")%>
+  </body>
+</html>
