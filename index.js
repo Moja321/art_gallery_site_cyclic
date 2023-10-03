@@ -21,12 +21,6 @@ const connectDB = async () => {
     }
 }
 
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("listening for requests");
-    })
-})
-
 // mongoose.connect(mongoURI,{useNewURLParser:true});
 // const db = mongoose.connection;
 // db.on("connected",()=>{
@@ -39,16 +33,16 @@ connectDB().then(() => {
 //     console.log("Error while connectiong to MongoDB: " + err.message);
 // })
 
-app.use(express.static("public"));
-
 //secret is a random key which is used to authenticate your session,
 //if not time limit is set, the cookie is deleted when the browser is closed
 //resave causes the cookie to resave everytime user interacts with the site (can prolong session)
 app.use(session({secret:"somerandomstring", resave: false, saveUninitialized: false}));
 
+app.use(express.static("public"));
+
 app.use(methodOverride("_method"));
 
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({extended:true}));
 
 app.set("view engine", "ejs");
 
@@ -107,11 +101,11 @@ app.get("/party",(req,res)=>{
 //Listen to port
 
 //Connect to the database before listening
-// connectDB().then(() => {
-//     app.listen(PORT, () => {
-//         console.log("listening for requests");
-//     })
-// })
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
+})
 
 // app.listen(PORT, () => {
 //     console.log("App is listening on port " + PORT);
