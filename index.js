@@ -4,40 +4,42 @@ const cors = require("cors");
 const session = require("express-session");
 const methodOverride = require("method-override");
 
-const Artwork = require("./models/artworks");
-
 const app = express();
 require("dotenv").config();
-app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 const mongoURI = `mongodb+srv://${process.env.MONGO_UNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOSTNAME}/${process.env.MONGO_DB_NAME}`;
 
 //Establish connection with mongodb
-// const connectDB = async () => {
-//     try {
-//       const conn = await mongoose.connect(mongoURI,{useNewURLParser:true});
-//       console.log(`MongoDB Connected: ${conn.connection.host}`);
-//     } catch (error) {
-//       console.log(error);
-//       process.exit(1);
-//     }
-// }
+const connectDB = async () => {
+    try {
+      const conn = await mongoose.connect(mongoURI,{useNewURLParser:true});
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
+}
 
-mongoose.connect(mongoURI,{useNewURLParser:true});
-const db = mongoose.connection;
-db.on("connected",()=>{
-    console.log("Succesfully connected to MongoDB: " + process.env.MONGO_DB_NAME);
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
 })
-db.on("disconnected",()=>{
-    console.log("Succesfully disconnected to MongoDB: " + process.env.MONGO_DB_NAME);
-})
-db.on("error",(err)=>{
-    console.log("Error while connectiong to MongoDB: " + err.message);
-})
+
+// mongoose.connect(mongoURI,{useNewURLParser:true});
+// const db = mongoose.connection;
+// db.on("connected",()=>{
+//     console.log("Succesfully connected to MongoDB: " + process.env.MONGO_DB_NAME);
+// })
+// db.on("disconnected",()=>{
+//     console.log("Succesfully disconnected to MongoDB: " + process.env.MONGO_DB_NAME);
+// })
+// db.on("error",(err)=>{
+//     console.log("Error while connectiong to MongoDB: " + err.message);
+// })
 
 app.use(express.static("public"));
-app.set("view engine", "ejs");
 
 //secret is a random key which is used to authenticate your session,
 //if not time limit is set, the cookie is deleted when the browser is closed
@@ -48,9 +50,14 @@ app.use(methodOverride("_method"));
 
 app.use(express.urlencoded({extended:false}));
 
+app.set("view engine", "ejs");
+
+app.use(cors());
+
 const userController = require("./controllers/user_controller.js");
 const sessionController = require("./controllers/session_controller.js");
 const artworksController = require("./controllers/artworks_controller");
+const Artwork = require("./models/artworks");
 
 app.use("/users", userController);
 app.use("/sessions", sessionController);
@@ -106,8 +113,8 @@ app.get("/party",(req,res)=>{
 //     })
 // })
 
-app.listen(PORT, () => {
-    console.log("App is listening on port " + PORT);
-});
+// app.listen(PORT, () => {
+//     console.log("App is listening on port " + PORT);
+// });
 
 
