@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const session = require("express-session");
 const methodOverride = require("method-override");
 
@@ -7,6 +8,7 @@ const Artwork = require("./models/artworks");
 
 const app = express();
 require("dotenv").config();
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 const mongoURI = `mongodb+srv://${process.env.MONGO_UNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOSTNAME}/${process.env.MONGO_DB_NAME}`;
