@@ -14,27 +14,27 @@ const PORT = process.env.PORT || 3000;
 const mongoURI = `mongodb+srv://${process.env.MONGO_UNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOSTNAME}/${process.env.MONGO_DB_NAME}`;
 
 //Establish connection with mongodb
-const connectDB = async () => {
-    try {
-      const conn = await mongoose.connect(mongoURI,{useNewURLParser:true});
-      console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-      console.log(error);
-      process.exit(1);
-    }
-}
+// const connectDB = async () => {
+//     try {
+//       const conn = await mongoose.connect(mongoURI,{useNewURLParser:true});
+//       console.log(`MongoDB Connected: ${conn.connection.host}`);
+//     } catch (error) {
+//       console.log(error);
+//       process.exit(1);
+//     }
+// }
 
-// mongoose.connect(mongoURI,{useNewURLParser:true});
-// const db = mongoose.connection;
-// db.on("connected",()=>{
-//     console.log("Succesfully connected to MongoDB: " + process.env.MONGO_DB_NAME);
-// })
-// db.on("disconnected",()=>{
-//     console.log("Succesfully disconnected to MongoDB: " + process.env.MONGO_DB_NAME);
-// })
-// db.on("error",(err)=>{
-//     console.log("Error while connectiong to MongoDB: " + err.message);
-// })
+mongoose.connect(mongoURI,{useNewURLParser:true});
+const db = mongoose.connection;
+db.on("connected",()=>{
+    console.log("Succesfully connected to MongoDB: " + process.env.MONGO_DB_NAME);
+})
+db.on("disconnected",()=>{
+    console.log("Succesfully disconnected to MongoDB: " + process.env.MONGO_DB_NAME);
+})
+db.on("error",(err)=>{
+    console.log("Error while connectiong to MongoDB: " + err.message);
+})
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -100,14 +100,14 @@ app.get("/party",(req,res)=>{
 //Listen to port
 
 //Connect to the database before listening
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("listening for requests");
-    })
-})
+// connectDB().then(() => {
+//     app.listen(PORT, () => {
+//         console.log("listening for requests");
+//     })
+// })
 
-// app.listen(PORT, () => {
-//     console.log("App is listening on port " + PORT);
-// });
+app.listen(PORT, () => {
+    console.log("App is listening on port " + PORT);
+});
 
 
